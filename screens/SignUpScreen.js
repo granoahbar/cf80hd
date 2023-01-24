@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Dimensions } from 'react-native';
 import React, { useState, useEffect } from 'react'
 import { auth } from '../firebase'
+import { firebase } from '../firebase'
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
@@ -24,12 +25,21 @@ const LoginScreen = () => {
 
       const handleSignUp = () => {
         auth
-            .createUserWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user
-                console.log('Registered with:', user.email)
-            })
-            .catch(error => alert(error.message))
+          .createUserWithEmailAndPassword(email, password)
+          .then(userCredentials => {
+              const user = userCredentials.user
+              console.log('Registered with:', user.email)
+              // Add the code to set the uid and first and last name field in the Firestore table
+              const uid = user.uid;
+              const userRef = firebase.firestore().collection('users').doc(uid);
+              userRef.set({
+                uid: uid,
+                firstName: firstName,
+                lastName: lastName,
+                tasksCompleted: 0
+              }, { merge: true });
+          })
+          .catch(error => console.log(error.message))
       }
 
   return (
