@@ -1,12 +1,36 @@
 import { StyleSheet, Text, View, Button, KeyboardAvoidingView, TextInput, Image, TouchableOpacity, StatusBar } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import { Dimensions } from 'react-native';
 import React, { useState, useEffect } from 'react'
+import { auth } from '../firebase'
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
 
     const navigation = useNavigation();
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+          if (user) {
+            navigation.navigate("Dash")
+          } 
+        });
+
+        unsubscribe
+      }, []);
+
+      const handleSignUp = () => {
+        auth
+            .createUserWithEmailAndPassword(email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user
+                console.log('Registered with:', user.email)
+            })
+            .catch(error => alert(error.message))
+      }
 
   return (
     <KeyboardAvoidingView 
@@ -17,7 +41,8 @@ const LoginScreen = () => {
       <StatusBar barStyle="dark-content" />
 
       <View style={styles.brandContainer}>
-        <Text style={styles.brandText}>WELCOME TO CLEAR FOCUS!</Text>
+        <Text style={styles.brandText}>CLEAR FOCUS</Text>
+        <Text style={[styles.brandTextColor, styles.brandText]}>80HD</Text>
       </View>
 
       <View style={styles.headingContainer}>
@@ -36,6 +61,21 @@ const LoginScreen = () => {
       </View>
 
       <View style={styles.inputContainer}>
+        <View style={styles.nameInputContainer}>
+            <TextInput 
+                placeholder="First Name"
+                value= {firstName}
+                onChangeText={text => setFirstName(text)}
+                style={[styles.input, styles.nameInputs, styles.firstNameInput]}
+            />
+            <TextInput 
+                placeholder="Last Name"
+                value= {lastName}
+                onChangeText={text => setLastName(text)}
+                style={[styles.input, styles.nameInputs]}
+            />
+        </View>
+
         <TextInput 
             placeholder="Email"
             value= {email}
@@ -53,7 +93,7 @@ const LoginScreen = () => {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-            // onPress= {signUp}
+            onPress= {handleSignUp}
             style={styles.button}
         >
             <Text style={styles.loginButtonText}>Sign up</Text>
@@ -76,6 +116,8 @@ const LoginScreen = () => {
 
 export default LoginScreen
 
+const screenWidth = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -92,6 +134,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 8,
         margin: 20,
+        marginTop: 0,
         fontSize: 20,
     },
     inputPassword: {
@@ -168,5 +211,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems:'center',
         marginRight: 20,
+    },
+    nameInputContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between',
+    },
+    nameInputs: {
+        width: (screenWidth - 60) / 2,
+    },
+    firstNameInput: {
+        marginRight: 0,
     },
 })
