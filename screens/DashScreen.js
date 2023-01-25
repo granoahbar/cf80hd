@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Button, KeyboardAvoidingView, TextInput, Image,
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import React, { useState, useEffect } from 'react'
-import { auth } from '../services/firebase'
+import { auth } from '../firebase'
 
 const DashScreen = () => {
 
