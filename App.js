@@ -1,15 +1,22 @@
+//IMPORTS
+
 import { StatusBar } from 'expo-status-bar';
 import react from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from './screens/LoginScreen';
-import SignUpScreen from './screens/SignUpScreen'
-import DashScreen from './screens/DashScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import SignUpScreen from './src/screens/SignUpScreen'
+import DashScreen from './src/screens/DashScreen';
+
+//VARIABLES
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  //JSX
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -20,6 +27,8 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+//STYLE SHEET
 
 const styles = StyleSheet.create({
   container: {

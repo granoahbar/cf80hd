@@ -1,17 +1,23 @@
+//IMPORTS
+
 import { StyleSheet, Text, View, Button, KeyboardAvoidingView, TextInput, Image, TouchableOpacity, StatusBar } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Dimensions } from 'react-native';
 import React, { useState, useEffect } from 'react'
-import { auth } from '../firebase'
-import { firebase } from '../firebase'
+import { auth } from '../services/firebase'
+import { firebase } from '../services/firebase'
 
 const LoginScreen = () => {
+
+    //VARIABLES
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
-
     const navigation = useNavigation();
+
+    //FUNCTIONS
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
@@ -39,8 +45,10 @@ const LoginScreen = () => {
                 tasksCompleted: 0
               }, { merge: true });
           })
-          .catch(error => console.log(error.message))
+          .catch(error => alert(error.message))
       }
+
+        //JSX
 
   return (
     <KeyboardAvoidingView 
@@ -124,7 +132,11 @@ const LoginScreen = () => {
   )
 }
 
+//FILE EXPORT
+
 export default LoginScreen
+
+//STYLE SHEET
 
 const screenWidth = Dimensions.get('window').width;
 
