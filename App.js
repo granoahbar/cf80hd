@@ -1,11 +1,10 @@
 //IMPORTS
 
-import { StatusBar } from 'expo-status-bar';
-import react from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from './screens/SignUpScreen';
+import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen'
 import DashScreen from './screens/DashScreen';
 
@@ -20,9 +19,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
-        <Stack.Screen options={{ headerShown: false }} name="Signup" component={SignUpScreen} />
-        <Stack.Screen options={{ headerShown: false }} name="Dash" component={DashScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="SignUpScreen" component={SignUpScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="DashScreen" component={DashScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

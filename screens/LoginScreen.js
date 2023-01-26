@@ -3,7 +3,7 @@
 import { StyleSheet, Text, View, Button, KeyboardAvoidingView, TextInput, Image, TouchableOpacity, StatusBar } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import React, { useState, useEffect } from 'react'
-import { auth } from '../services/firebase'
+import { auth } from '../firebase'
 
 const LoginScreen = () => {
 
@@ -18,10 +18,11 @@ const LoginScreen = () => {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
           if (user) {
-            navigation.navigate("Dash")
+            navigation.navigate("DashScreen")
           } 
         });
-        unsubscribe
+
+        unsubscribe()
       }, []);
 
       const handleLogin = () => {
@@ -83,7 +84,7 @@ const LoginScreen = () => {
             <Button 
             style={[styles.switchButtonText, styles.switchButtonTextSec]}
             title= "Sign up"
-            onPress={() => navigation.navigate('Signup')}
+            onPress={() => navigation.navigate('SignUpScreen')}
             >
             </Button>
       </View>

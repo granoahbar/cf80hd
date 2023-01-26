@@ -22,11 +22,11 @@ const LoginScreen = () => {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
           if (user) {
-            navigation.navigate("Dash")
+            navigation.navigate("DashScreen")
           } 
         });
 
-        unsubscribe
+        unsubscribe()
       }, []);
 
       const handleSignUp = () => {
@@ -123,7 +123,7 @@ const LoginScreen = () => {
             <Button 
             style={[styles.switchButtonText, styles.switchButtonTextSec]}
             title= "Login"
-            onPress={() => navigation.navigate('Login')}
+            onPress={() => navigation.navigate('LoginScreen')}
             >
             </Button>
       </View>
