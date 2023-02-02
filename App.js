@@ -1,18 +1,21 @@
 //IMPORTS
 
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen'
 import DashScreen from './screens/DashScreen';
-
-//VARIABLES
+import { auth } from './firebase'
 
 const Stack = createNativeStackNavigator();
 
+//VARIABLES
+
 export default function App() {
+
+  
 
   //JSX
 

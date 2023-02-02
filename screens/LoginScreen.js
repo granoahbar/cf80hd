@@ -15,6 +15,18 @@ const LoginScreen = () => {
 
     //FUNCTIONS
 
+    const handleLogin = () => {
+        auth
+            .signInWithEmailAndPassword(email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user
+                if (user) {
+                    navigation.navigate("DashScreen")
+                  } 
+            })
+            .catch(error => alert(error.message))
+      }
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
           if (user) {
@@ -24,15 +36,6 @@ const LoginScreen = () => {
 
         unsubscribe()
       }, []);
-
-      const handleLogin = () => {
-        auth
-            .signInWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user
-            })
-            .catch(error => alert(error.message))
-      }
 
       //JSX
 
@@ -161,7 +164,7 @@ const styles = StyleSheet.create({
     },
     brandText: {
         fontWeight: '700',
-        fontSize: 50,
+        fontSize: 40,
     }, 
     switchButtonContainer: {
         display: 'flex',

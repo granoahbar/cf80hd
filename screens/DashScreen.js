@@ -1,31 +1,32 @@
 //IMPORTS
 
-import { StyleSheet, Text, View, Button, Modal, KeyboardAvoidingView, TextInput, Image, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { auth } from '../firebase'
 
-const DashScreen = () => {
+import UserSettingsModal from '../components/UserSettingsModal'
 
-  //VARIABLES
+const DashScreen = () => {
 
     const navigation = useNavigation();
     const [modalVisible, setModalVisible] = useState(false);
 
-    //FUNCTIONS
+    const handleSignOut = () => {
+      auth
+        .signOut()
+        .then(() => {
+          setModalVisible(false)
+          navigation.replace("LoginScreen")
+        })
+        .catch(error => alert(error.message))
+    }
 
-      const handleSignOut = () => {
-        auth
-          .signOut()
-          .then(() => {
-            navigation.replace("Login")
-          })
-          .catch(error => alert(error.message))
-      }
-
-      //JSX
+    const handleCloseModal = () => {
+      setModalVisible(false)
+    }
 
   return (
     <SafeAreaView 
@@ -35,22 +36,7 @@ const DashScreen = () => {
 
       <StatusBar barStyle="dark-content" />
 
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-         <View style={styles.container}>
-    <Text>{auth.currentUser?.email}</Text>
-    <TouchableOpacity
-      onPress={handleSignOut}
-      style={styles.button}
-    >
-      <Text style={styles.buttonText}>Sign out</Text>
-    </TouchableOpacity>
-    </View>
-      </Modal>
+      <UserSettingsModal modalVisible={modalVisible} handleSignOut={handleSignOut} handleCloseModal={handleCloseModal}/>
 
       <View style={styles.brandContainer}>
         <View>
@@ -67,6 +53,60 @@ const DashScreen = () => {
         <TouchableOpacity style={styles.taskContainer}>
           <View style={styles.taskTimeNameContainer}>
             <Text style={styles.taskTime}>9:30am - 10:30am</Text>
+            <Text style={styles.taskName}>Take dogs for walk</Text>
+          </View>
+          <TouchableOpacity title='Completed' style={styles.completedButton}>
+            <Text style={styles.completedButtonText}>Done</Text>
+          </TouchableOpacity>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.taskContainer}>
+          <View style={styles.taskTimeNameContainer}>
+            <Text style={styles.taskTime}>10:30am - 11:30am</Text>
+            <Text style={styles.taskName}>Do the dishes</Text>
+          </View>
+          <TouchableOpacity title='Completed' style={styles.completedButton}>
+            <Text style={styles.completedButtonText}>Done</Text>
+          </TouchableOpacity>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.taskContainer}>
+          <View style={styles.taskTimeNameContainer}>
+            <Text style={styles.taskTime}>11:30am - 11:45am</Text>
+            <Text style={styles.taskName}>Feed the dogs</Text>
+          </View>
+          <TouchableOpacity title='Completed' style={styles.completedButton}>
+            <Text style={styles.completedButtonText}>Done</Text>
+          </TouchableOpacity>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.taskContainer}>
+          <View style={styles.taskTimeNameContainer}>
+            <Text style={styles.taskTime}>1:30pm - 3:00pm</Text>
+            <Text style={styles.taskName}>Biology class</Text>
+          </View>
+          <TouchableOpacity title='Completed' style={styles.completedButton}>
+            <Text style={styles.completedButtonText}>Done</Text>
+          </TouchableOpacity>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.taskContainer}>
+          <View style={styles.taskTimeNameContainer}>
+            <Text style={styles.taskTime}>3:30pm - 5:00pm</Text>
+            <Text style={styles.taskName}>Do biology homework</Text>
+          </View>
+          <TouchableOpacity title='Completed' style={styles.completedButton}>
+            <Text style={styles.completedButtonText}>Done</Text>
+          </TouchableOpacity>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.taskContainer}>
+          <View style={styles.taskTimeNameContainer}>
+            <Text style={styles.taskTime}>6:00pm - 7:00pm</Text>
+            <Text style={styles.taskName}>Dinner</Text>
+          </View>
+          <TouchableOpacity title='Completed' style={styles.completedButton}>
+            <Text style={styles.completedButtonText}>Done</Text>
+          </TouchableOpacity>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.taskContainer}>
+          <View style={styles.taskTimeNameContainer}>
+            <Text style={styles.taskTime}>9:30am - 10:30am</Text>
             <Text style={styles.taskName}>Do the dishes</Text>
           </View>
           <TouchableOpacity title='Completed' style={styles.completedButton}>
@@ -74,24 +114,8 @@ const DashScreen = () => {
           </TouchableOpacity>
         </TouchableOpacity>
 
+
       </ScrollView>
-
-      <View style={styles.recContainer}>
-
-      <Text style={styles.recTasksHeader}>Quick Suggestions</Text>
-
-        <View style={[styles.taskContainer, styles.taskContainerQuickRec]}>
-          <View style={styles.taskTimeNameContainer}>
-            <Text style={styles.taskTime}>9:30am - 10:30am</Text>
-            <Text style={styles.taskName}>Do the dishes</Text>
-          </View>
-          <View style={styles.recButtonsContainer}>
-            <Text style={styles.completedButtonText}>Nope</Text>
-            <Text style={styles.completedButtonText}>Add</Text>
-          </View>
-        </View>
-
-      </View>
 
     </SafeAreaView>
   )
@@ -125,19 +149,19 @@ const styles = StyleSheet.create({
     height: '10%',
   },
   recContainer: {
-    height: '10%',
+    height: '15%',
     margin: 20,
     marginLeft: 0,
     marginRight: 0,
   },
   brandText: {
-    fontWeight: '500',
+    fontWeight: '600',
     fontSize: 60,
   }, 
   tasksContainer: {
     display: 'flex',
     flexDirection: 'column',
-    height: '80%',
+    height: '90%',
   },
   taskContainer: {
     display: 'flex',
@@ -149,11 +173,12 @@ const styles = StyleSheet.create({
     margin: 20,
     marginBottom: 0,
     borderRadius: 7,
+    height: 55,
   },
   taskName: {
     color: 'white',
     fontWeight: '500',
-    fontSize: 25,
+    fontSize: 20,
   },
   taskTime: {
     color: 'white',
@@ -193,5 +218,29 @@ const styles = StyleSheet.create({
   },
   addIcon: {
     alignSelf: 'center',
+  },
+  buttonContainer: {
+    margin: 20,
+    marginTop: 0,
+  },
+  button: {
+    backgroundColor: 'black',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    color: 'white',
+    margin: 20,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 20,
+  },
+  userEmailSettingsPage: {
+    textAlign: 'center',
+  },
+  settingsModal: {
+    width: '100%',
+    height: 500,
   }
 })

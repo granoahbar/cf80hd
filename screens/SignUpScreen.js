@@ -3,7 +3,7 @@
 import { StyleSheet, Text, View, Button, KeyboardAvoidingView, TextInput, Image, TouchableOpacity, StatusBar } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Dimensions } from 'react-native';
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { auth } from '../firebase'
 import { firebase } from '../firebase'
 
@@ -18,16 +18,6 @@ const LoginScreen = () => {
     const navigation = useNavigation();
 
     //FUNCTIONS
-
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
-          if (user) {
-            navigation.navigate("DashScreen")
-          } 
-        });
-
-        unsubscribe()
-      }, []);
 
       const handleSignUp = () => {
         auth
@@ -44,6 +34,9 @@ const LoginScreen = () => {
                 lastName: lastName,
                 tasksCompleted: 0
               }, { merge: true });
+              if (user) {
+                navigation.navigate("DashScreen")
+              } 
           })
           .catch(error => alert(error.message))
       }
@@ -207,7 +200,7 @@ const styles = StyleSheet.create({
     },
     brandText: {
         fontWeight: '700',
-        fontSize: 50,
+        fontSize: 45,
     }, 
     switchButtonContainer: {
         display: 'flex',
