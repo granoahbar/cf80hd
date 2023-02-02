@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-const Task = () => {
+const Task = (props) => {
   return (
-    <TouchableOpacity style={styles.taskContainer}>
+    <TouchableOpacity onPress={props.handleOpenEditTaskModal} style={styles.taskContainer}>
         <View style={styles.taskTimeNameContainer}>
             <Text style={styles.taskTime}>3:30pm - 5:00pm</Text>
             <Text style={styles.taskName}>Do biology homework</Text>
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'teal',
         color: 'white',
         margin: 20,
-        marginBottom: 0,
+        marginTop: 0,
         borderRadius: 7,
         height: 55,
       },

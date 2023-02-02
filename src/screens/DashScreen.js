@@ -5,19 +5,23 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { auth } from '../firebase'
+import { auth } from '../../firebase'
 
 //IMPORTING COMPONENTS
 
 import UserSettingsModal from '../components/UserSettingsModal'
 import Task from '../components/Task'
+import AddModal from '../components/AddModal'
+import EditTaskModal from '../components/EditTaskModal'
 
 const DashScreen = () => {
 
   // SETTING VARIABLES
 
     const navigation = useNavigation();
-    const [modalVisible, setModalVisible] = useState(false);
+    const [userSettingsModalVisible, setUserSettingsModalVisible] = useState(false);
+    const [addModalVisible, setAddModalVisible] = useState(false);
+    const [EditTaskModalVisible, setEditTaskModalVisible] = useState(false);
 
     //FUNCTIONS
 
@@ -25,14 +29,26 @@ const DashScreen = () => {
       auth
         .signOut()
         .then(() => {
-          setModalVisible(false)
+          setUserSettingsModalVisible(false)
           navigation.replace("LoginScreen")
         })
         .catch(error => alert(error.message))
     }
 
-    const handleCloseModal = () => {
-      setModalVisible(false)
+    const handleCloseUserSettingsModal = () => {
+      setUserSettingsModalVisible(false)
+    }
+
+    const handleCloseAddModal = () => {
+      setAddModalVisible(false)
+    }
+
+    const handleCloseEditTaskModal = () => {
+      setEditTaskModalVisible(false)
+    }
+
+    const handleOpenEditTaskModal = () => {
+      setEditTaskModalVisible(true)
     }
 
     //JSX
@@ -45,32 +61,34 @@ const DashScreen = () => {
 
       <StatusBar barStyle="dark-content" />
 
-      <UserSettingsModal modalVisible={modalVisible} handleSignOut={handleSignOut} handleCloseModal={handleCloseModal}/>
+      <UserSettingsModal userSettingsModalVisible={userSettingsModalVisible} handleSignOut={handleSignOut} handleCloseUserSettingsModal={handleCloseUserSettingsModal}/>
+      <AddModal addModalVisible={addModalVisible} handleCloseAddModal={handleCloseAddModal}/>
+      <EditTaskModal editTaskModalVisible={EditTaskModalVisible} handleCloseEditTaskModal={handleCloseEditTaskModal}/>
 
       <View style={styles.brandContainer}>
         <View>
           <Text style={styles.brandText}>Your day</Text>
-          <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.displayEmail}>
+          <TouchableOpacity onPress={() => setUserSettingsModalVisible(true)} style={styles.displayEmail}>
             <Text style={styles.userEmail}>{auth.currentUser?.email}</Text>
           </TouchableOpacity>
         </View>
-        <Icon style={styles.addIcon} name="add" size={90} color="black" />
+          <TouchableOpacity onPress={() => setAddModalVisible(true)}>
+            <Icon style={styles.addIcon} name="add" size={90} color="black"/>
+          </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.tasksContainer}>
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
+        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
+        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
+        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
+        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
+        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
+        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
+        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
+        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
+        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
+        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
+      
       </ScrollView>
 
     </SafeAreaView>
@@ -101,14 +119,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginLeft: 20,
-    marginBottom: 20,
+    marginBottom: 40,
     height: '10%',
-  },
-  recContainer: {
-    height: '15%',
-    margin: 20,
-    marginLeft: 0,
-    marginRight: 0,
   },
   brandText: {
     fontWeight: '600',
@@ -118,19 +130,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     height: '90%',
-  },
-  recTasksHeader: {
-    textAlign: 'center',
-    fontWeight: '600',
-    fontSize: 25,
-    color: 'black',
-  },
-  taskContainerQuickRec: {
-    backgroundColor: 'cadetblue',
-  },
-  recButtonsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
   },
   addIcon: {
     alignSelf: 'center',

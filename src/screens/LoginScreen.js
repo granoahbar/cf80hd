@@ -3,7 +3,7 @@
 import { StyleSheet, Text, View, Button, KeyboardAvoidingView, TextInput, Image, TouchableOpacity, StatusBar } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import React, { useState, useEffect } from 'react'
-import { auth } from '../firebase'
+import { auth } from '../../firebase'
 
 const LoginScreen = () => {
 

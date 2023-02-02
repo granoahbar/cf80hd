@@ -1,15 +1,14 @@
 import { StyleSheet, Text, View, Modal, TouchableOpacity } from 'react-native'
-import { auth } from '../firebase'
+import { auth } from '../../firebase'
 import React from 'react'
 
 const UserSettingsModal = (props) => {
-    const { modalVisible } = props
 
   return (
     <Modal
     animationType="slide"
-    transparent={false}
-    visible={modalVisible}
+    transparent={true}
+    visible={props.userSettingsModalVisible}
     style={styles.settingsModal}
   >
 
@@ -22,7 +21,7 @@ const UserSettingsModal = (props) => {
         <Text style={styles.buttonText}>Sign out</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={props.handleCloseModal}
+          onPress={props.handleCloseUserSettingsModal}
           style={styles.button}
         >
         <Text style={styles.buttonText}>Close</Text>
