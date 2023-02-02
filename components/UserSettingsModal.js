@@ -37,7 +37,7 @@ export default UserSettingsModal
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'teal',
+        backgroundColor: 'white',
         width: '100%',
         overflow: 'hidden',
         flex: 1,
@@ -47,11 +47,10 @@ const styles = StyleSheet.create({
         marginTop: 0,
       },
       button: {
-        backgroundColor: 'black',
+        backgroundColor: 'teal',
         padding: 10,
         borderRadius: 8,
         alignItems: 'center',
-        color: 'white',
         margin: 20,
         marginTop: 0,
       },
@@ -65,8 +64,8 @@ const styles = StyleSheet.create({
       },
       userEmailSettingsPage: {
         textAlign: 'center',
-        color: 'white',
+        color: 'black',
         fontWeight: '700',
-        fontSize: 25,
+        fontSize: 17,
       },
 })

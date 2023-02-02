@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
         margin: 20,
     },
     brandText: {
-        fontWeight: '700',
+        fontWeight: '800',
         fontSize: 40,
     }, 
     switchButtonContainer: {
