@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View, Modal, TouchableOpacity } from 'react-native'
-import { auth } from '../../firebase'
+import { StyleSheet, Text, View, Modal, TouchableOpacity, Dimensions } from 'react-native'
 import React from 'react'
+
+const { height } = Dimensions.get('window');
 
 const UserSettingsModal = (props) => {
 
@@ -13,7 +14,7 @@ const UserSettingsModal = (props) => {
   >
 
      <View style={styles.container}>
-        <Text style={styles.userEmailSettingsPage}>{auth.currentUser?.email}</Text>
+        <Text style={styles.userEmailSettingsPage}>Hey {props.firstName}!</Text>
         <TouchableOpacity
           onPress={props.handleSignOut}
           style={[styles.button, styles.buttonSignOut]}
@@ -36,20 +37,24 @@ export default UserSettingsModal
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
-        width: '100%',
-        overflow: 'hidden',
-        flex: 1,
+        height: height * 0.25,
+        backgroundColor: 'teal',
         justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
       },
       buttonContainer: {
         marginTop: 0,
       },
       button: {
-        backgroundColor: 'teal',
+        backgroundColor: 'black',
         padding: 10,
         borderRadius: 8,
         alignItems: 'center',
+        width: '80%',
         margin: 20,
         marginTop: 0,
       },
@@ -63,8 +68,8 @@ const styles = StyleSheet.create({
       },
       userEmailSettingsPage: {
         textAlign: 'center',
-        color: 'black',
+        color: 'white',
         fontWeight: '700',
-        fontSize: 17,
+        fontSize: 25,
       },
 })

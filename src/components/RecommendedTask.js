@@ -30,6 +30,7 @@ export default RecommendedTask
 
 const styles = StyleSheet.create({
   recContainer: {
+    backgroundColor: 'whitesmoke',
     height: '15%',
     margin: 20,
     marginLeft: 0,

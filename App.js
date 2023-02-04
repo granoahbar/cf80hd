@@ -30,13 +30,4 @@ export default function App() {
 //STYLE SHEET
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'left',
-  },
-  text: {
-    fontSize: 40,
-    fontWeight: "bold",
-  }
 });

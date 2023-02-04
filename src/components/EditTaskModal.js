@@ -24,7 +24,7 @@ export default AddModal
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: 'whitesmoke',
     width: '100%',
     overflow: 'hidden',
     flex: 1,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   button: {
-    backgroundColor: 'teal',
+    backgroundColor: 'black',
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',

@@ -1,6 +1,6 @@
 //IMPORTS
 
-import { StyleSheet, Text, View, Button, KeyboardAvoidingView, TextInput, Image, TouchableOpacity, StatusBar } from 'react-native'
+import { StyleSheet, Text, View, Button, KeyboardAvoidingView, TextInput, TouchableOpacity, StatusBar } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Dimensions } from 'react-native';
 import React, { useState } from 'react'
@@ -24,7 +24,6 @@ const LoginScreen = () => {
           .createUserWithEmailAndPassword(email, password)
           .then(userCredentials => {
               const user = userCredentials.user
-              console.log('Registered with:', user.email)
               // Add the code to set the uid and first and last name field in the Firestore table
               const uid = user.uid;
               const userRef = firebase.firestore().collection('users').doc(uid);
@@ -137,6 +136,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
+        backgroundColor: 'whitesmoke',
     },
     inputContainer: {
         width: '100%',

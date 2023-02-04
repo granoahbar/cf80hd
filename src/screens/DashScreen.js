@@ -4,8 +4,10 @@ import { StyleSheet, Text, View, TouchableOpacity, StatusBar, ScrollView } from 
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
-import React, { useState } from 'react'
+import RNDateTimePicker from '@react-native-community/datetimepicker';
+import React, { useState, useEffect } from 'react'
 import { auth } from '../../firebase'
+import { firebase } from '../../firebase';
 
 //IMPORTING COMPONENTS
 
@@ -22,6 +24,21 @@ const DashScreen = () => {
     const [userSettingsModalVisible, setUserSettingsModalVisible] = useState(false);
     const [addModalVisible, setAddModalVisible] = useState(false);
     const [EditTaskModalVisible, setEditTaskModalVisible] = useState(false);
+    const [chosenDate, setChosenDate] = useState(new Date())
+    const [firstName, setFirstName] = useState('')
+
+    // RETRIEVING DATA
+
+    const userUid = auth.currentUser.uid
+    const userDocRef = firebase.firestore().collection('users').doc(userUid)
+
+      userDocRef.get().then(doc => {
+        if (doc.exists) {
+          setFirstName(doc.get('firstName'))
+        } else {
+          console.log('could not retrieve name')
+        }
+      })
 
     //FUNCTIONS
 
@@ -51,6 +68,10 @@ const DashScreen = () => {
       setEditTaskModalVisible(true)
     }
 
+    const handleOpenUserSettingsModal = () => {
+      setUserSettingsModalVisible(true)
+    }
+
     //JSX
 
   return (
@@ -61,35 +82,30 @@ const DashScreen = () => {
 
       <StatusBar barStyle="dark-content" />
 
-      <UserSettingsModal userSettingsModalVisible={userSettingsModalVisible} handleSignOut={handleSignOut} handleCloseUserSettingsModal={handleCloseUserSettingsModal}/>
+      <UserSettingsModal 
+        userSettingsModalVisible={userSettingsModalVisible} 
+        handleSignOut={handleSignOut} 
+        handleCloseUserSettingsModal={handleCloseUserSettingsModal}
+        firstName={firstName}
+      />
       <AddModal addModalVisible={addModalVisible} handleCloseAddModal={handleCloseAddModal}/>
       <EditTaskModal editTaskModalVisible={EditTaskModalVisible} handleCloseEditTaskModal={handleCloseEditTaskModal}/>
 
       <View style={styles.brandContainer}>
-        <View>
-          <Text style={styles.brandText}>Your day</Text>
-          <TouchableOpacity onPress={() => setUserSettingsModalVisible(true)} style={styles.displayEmail}>
-            <Text style={styles.userEmail}>{auth.currentUser?.email}</Text>
+        <RNDateTimePicker value={chosenDate} mode="date" display="calendar" themeVariant="light" accentColor="teal"/>
+        <View style={styles.settingsAddContainer}>
+          <TouchableOpacity onPress={handleOpenUserSettingsModal}>
+            <Icon style={styles.addIcon} name="settings" size={40} color="black"/>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setAddModalVisible(true)}>
+            <Icon style={styles.addIcon} name="add" size={55} color="black"/>
           </TouchableOpacity>
         </View>
-          <TouchableOpacity onPress={() => setAddModalVisible(true)}>
-            <Icon style={styles.addIcon} name="add" size={90} color="black"/>
-          </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.tasksContainer}>
         <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
-        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
-        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
-        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
-        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
-        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
-        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
-        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
-        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
-        <Task handleOpenEditTaskModal={handleOpenEditTaskModal}/>
-      
-      </ScrollView>
+      </ScrollView> 
 
     </SafeAreaView>
   )
@@ -103,36 +119,20 @@ export default DashScreen
 
 const styles = StyleSheet.create({
   container: {
-    overflow: 'hidden',
-    flex: 1,
+    backgroundColor: 'whitesmoke',
     justifyContent: 'center',
     height: '100%',
-    marginTop: 20,
-  },
-  displayEmail: {
-    fontSize: 15,
-    marginLeft: 10,
-    color: 'black',
   },
   brandContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginLeft: 20,
-    marginBottom: 40,
+    margin: 20,
     height: '10%',
   },
-  brandText: {
-    fontWeight: '600',
-    fontSize: 62,
-  }, 
   tasksContainer: {
     display: 'flex',
     flexDirection: 'column',
-    height: '90%',
-  },
-  addIcon: {
-    alignSelf: 'center',
   },
   buttonContainer: {
     margin: 20,
@@ -158,7 +158,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 500,
   },
-  userEmail: {
-    fontSize: 16,
+  settingsAddContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 })
